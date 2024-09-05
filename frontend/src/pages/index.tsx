@@ -29,21 +29,37 @@ export default function Home() {
     fetchData();
   }, []);
 
+  //create user
+  const createUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${apiUrl}/users`, newUser);
+      setUsers([response.data, ...users]);
+      setNewUser({ name: '', email: '' });
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+  };
+
   return (
     <main className='flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100'>
       <div className='space-y-4 w-full max-w-2x1'>
         <h1 className='text-2x1 font-bold text-gray-800 text-center'>Hello please work!</h1>
 
-      {/* Display users */}
-      <div className="space-y-2">
-        {users.map((user) => (
-          <div key={user.id}>
-            <CardComponent card={user} />
-            <button onClick={() => deleteUser(user.id)}>
-              Delete User
-            </button>
-          </div>
-        ))}
+
+        {/* Create user form */}
+
+
+        {/* Display users */}
+        <div className="space-y-2">
+          {users.map((user) => (
+            <div key={user.id}>
+              <CardComponent card={user} />
+              <button onClick={() => deleteUser(user.id)}>
+                Delete User
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </main>
