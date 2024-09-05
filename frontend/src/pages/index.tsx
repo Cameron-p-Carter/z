@@ -33,6 +33,18 @@ export default function Home() {
     <main className='flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100'>
       <div className='space-y-4 w-full max-w-2x1'>
         <h1 className='text-2x1 font-bold text-gray-800 text-center'>Hello please work!</h1>
+
+      {/* Display users */}
+      <div className="space-y-2">
+        {users.map((user) => (
+          <div key={user.id}>
+            <CardComponent card={user} />
+            <button onClick={() => deleteUser(user.id)}>
+              Delete User
+            </button>
+          </div>
+        ))}
+        </div>
       </div>
     </main>
   );
