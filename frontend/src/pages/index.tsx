@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CardComponent from '../components/CardComponent';
 
 interface Note {
   id: number;
@@ -11,6 +12,7 @@ export default function Home() {
   const apiUrl = 'http://localhost:4000';
   const [notes, setNotes] = useState<Note[]>([]);
   const [newNote, setNewNote] = useState({ title: '', content: '' });
+  const [updateNote, setUpdateNote] = useState({ id: '', title: '', content: '' });
 
   // Fetch notes
   useEffect(() => {
@@ -29,6 +31,22 @@ export default function Home() {
       setNewNote({ title: '', content: '' });
     }).catch((error) => {
       console.error('Error creating note:', error);
+    });
+  };
+
+  // Update note
+  const handleUpdateNote = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axios.put(`${apiUrl}/notes/${updateNote.id}`, {
+      title: updateNote.title,
+      content: updateNote.content,
+    }).then(() => {
+      setNotes(
+        notes.map((note) => (note.id === parseInt(updateNote.id) ? updateNote : note))
+      );
+      setUpdateNote({ id: '', title: '', content: '' });
+    }).catch((error) => {
+      console.error('Error updating note:', error);
     });
   };
 
@@ -53,11 +71,33 @@ export default function Home() {
         <button type="submit">Create Note</button>
       </form>
 
+      {/* Update Note */}
+      <form onSubmit={handleUpdateNote}>
+        <input
+          type="text"
+          placeholder="Note ID"
+          value={updateNote.id}
+          onChange={(e) => setUpdateNote({ ...updateNote, id: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="New Title"
+          value={updateNote.title}
+          onChange={(e) => setUpdateNote({ ...updateNote, title: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="New Content"
+          value={updateNote.content}
+          onChange={(e) => setUpdateNote({ ...updateNote, content: e.target.value })}
+        />
+        <button type="submit">Update Note</button>
+      </form>
+
       {/* List of Notes */}
       {notes.map((note) => (
         <div key={note.id}>
-          <h3>{note.title}</h3>
-          <p>{note.content}</p>
+          <CardComponent card={note} />
         </div>
       ))}
     </div>
