@@ -68,24 +68,24 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-8 bg-gray-50">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-6">Notes Archive</h1>
+    <main className="min-h-screen bg-yellow-50 p-10">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-4xl font-serif font-bold text-center mb-10 text-gray-900">Notes Archive</h1>
 
         <div className="flex justify-center mb-6">
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-md"
+            className="px-6 py-2 bg-gray-700 text-white font-semibold rounded-md hover:bg-gray-800 transition duration-200"
             onClick={() => setIsCreateModalOpen(true)}
           >
             Add New Note
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {notes.map((note) => (
-            <div key={note.id} className="border p-4 rounded-md bg-white shadow">
+            <div key={note.id} className="relative">
               <CardComponent card={note} />
-              <div className="mt-2 flex justify-end space-x-2">
+              <div className="absolute top-2 right-2 flex space-x-2">
                 <button
                   onClick={() => {
                     setUpdateNote({
@@ -95,15 +95,15 @@ export default function Home() {
                     });
                     setIsUpdateModalOpen(true);
                   }}
-                  className="bg-blue-500 text-white px-4 py-1 rounded"
+                  className="bg-gray-400 text-white p-2 rounded-full hover:bg-gray-500 transition-all"
                 >
-                  Edit
+                  ✎ {/* Old-style pen icon for edit */}
                 </button>
                 <button
                   onClick={() => deleteNote(note.id)}
-                  className="bg-red-500 text-white px-4 py-1 rounded"
+                  className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all"
                 >
-                  Delete
+                  ✖ {/* Old-style cross icon for delete */}
                 </button>
               </div>
             </div>
@@ -111,28 +111,32 @@ export default function Home() {
         </div>
 
         {isCreateModalOpen && (
-          <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-xl mb-4">Create New Note</h2>
-              <form onSubmit={createNote}>
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white rounded-lg p-8 shadow-lg max-w-lg w-full">
+              <h2 className="text-xl font-serif font-bold mb-4">Create New Note</h2>
+              <form onSubmit={createNote} className="space-y-4">
                 <input
                   type="text"
                   placeholder="Title"
                   value={newNote.title}
                   onChange={(e) => setNewNote({ ...newNote, title: e.target.value })}
-                  className="w-full mb-2 p-2 border rounded"
+                  className="w-full p-2 border border-gray-400 rounded-md bg-yellow-50"
                 />
                 <textarea
                   placeholder="Content"
                   value={newNote.content}
                   onChange={(e) => setNewNote({ ...newNote, content: e.target.value })}
-                  className="w-full mb-2 p-2 border rounded"
+                  className="w-full p-2 border border-gray-400 rounded-md bg-yellow-50"
                 />
-                <div className="flex justify-end space-x-2">
-                  <button type="button" onClick={() => setIsCreateModalOpen(false)} className="bg-gray-300 px-4 py-2 rounded">
+                <div className="flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsCreateModalOpen(false)}
+                    className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                  >
                     Cancel
                   </button>
-                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+                  <button type="submit" className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800">
                     Save
                   </button>
                 </div>
@@ -142,28 +146,32 @@ export default function Home() {
         )}
 
         {isUpdateModalOpen && (
-          <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-xl mb-4">Update Note</h2>
-              <form onSubmit={handleUpdateNote}>
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white rounded-lg p-8 shadow-lg max-w-lg w-full">
+              <h2 className="text-xl font-serif font-bold mb-4">Update Note</h2>
+              <form onSubmit={handleUpdateNote} className="space-y-4">
                 <input
                   type="text"
                   placeholder="Title"
                   value={updateNote.title}
                   onChange={(e) => setUpdateNote({ ...updateNote, title: e.target.value })}
-                  className="w-full mb-2 p-2 border rounded"
+                  className="w-full p-2 border border-gray-400 rounded-md bg-yellow-50"
                 />
                 <textarea
                   placeholder="Content"
                   value={updateNote.content}
                   onChange={(e) => setUpdateNote({ ...updateNote, content: e.target.value })}
-                  className="w-full mb-2 p-2 border rounded"
+                  className="w-full p-2 border border-gray-400 rounded-md bg-yellow-50"
                 />
-                <div className="flex justify-end space-x-2">
-                  <button type="button" onClick={() => setIsUpdateModalOpen(false)} className="bg-gray-300 px-4 py-2 rounded">
+                <div className="flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsUpdateModalOpen(false)}
+                    className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                  >
                     Cancel
                   </button>
-                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+                  <button type="submit" className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800">
                     Update
                   </button>
                 </div>
