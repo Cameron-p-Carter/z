@@ -9,7 +9,7 @@ interface Card {
 const CardComponent: React.FC<{ card: Card }> = ({ card }) => {
   return (
     <div>
-      <h3>{card.title}</h3>
+      <h3 className="text-lg font-bold">{card.title}</h3>
       <p>{card.content}</p>
     </div>
   );
