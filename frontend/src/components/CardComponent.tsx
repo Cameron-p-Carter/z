@@ -16,7 +16,7 @@ const CardComponent: React.FC<{ card: Card }> = ({ card }) => {
       <p className="text-base font-serif text-gray-800 leading-relaxed">{card.content}</p>
 
       <div className="mt-4 text-right">
-        <span className="text-xs text-gray-500 italic">Created on: 12th August, 1890</span>
+        <span className="text-xs text-gray-500 italic">Created on: 6th August, 2024</span>
       </div>
     </div>
   );
