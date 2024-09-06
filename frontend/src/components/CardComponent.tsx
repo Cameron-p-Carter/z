@@ -8,7 +8,7 @@ interface Card {
 
 const CardComponent: React.FC<{ card: Card }> = ({ card }) => {
   return (
-    <div className="bg-yellow-50 border border-gray-300 rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300 ease-in-out">
+    <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300 ease-in-out">
       <div className="mb-2">
         <div className="text-xs text-gray-600 italic">Note ID: {card.id}</div>
         <h3 className="text-xl font-serif font-bold text-gray-900">{card.title}</h3>

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CardComponent from '../components/CardComponent';
 
+
 interface Note {
   id: number;
   title: string;
   content: string;
 }
+
 
 export default function Home() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
@@ -16,14 +18,24 @@ export default function Home() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
+
+  // Fetch notes
   useEffect(() => {
-    axios.get(`${apiUrl}/notes`).then((response) => {
-      setNotes(response.data.reverse());
-    }).catch((error) => {
-      console.error('Error fetching data:', error);
-    });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/notes`);
+        setNotes(response.data.reverse());
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+
+    fetchData();
   }, []);
 
+
+  // Create note
   const createNote = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -36,6 +48,8 @@ export default function Home() {
     }
   };
 
+
+  // Update note
   const handleUpdateNote = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -58,6 +72,8 @@ export default function Home() {
     }
   };
 
+
+  // Delete note
   const deleteNote = async (noteId: number) => {
     try {
       await axios.delete(`${apiUrl}/notes/${noteId}`);
@@ -67,11 +83,14 @@ export default function Home() {
     }
   };
 
+
   return (
     <main className="min-h-screen bg-yellow-50 p-10">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl font-serif font-bold text-center mb-10 text-gray-900">Notes Archive</h1>
 
+
+        {/* Create note modal button */}
         <div className="flex justify-center mb-6">
           <button
             className="px-6 py-2 bg-gray-700 text-white font-semibold rounded-md hover:bg-gray-800 transition duration-200"
@@ -81,6 +100,8 @@ export default function Home() {
           </button>
         </div>
 
+
+        {/* Grid layout for notes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {notes.map((note) => (
             <div key={note.id} className="relative">
@@ -110,6 +131,8 @@ export default function Home() {
           ))}
         </div>
 
+
+        {/* Create Note Modal */}
         {isCreateModalOpen && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white rounded-lg p-8 shadow-lg max-w-lg w-full">
@@ -145,6 +168,8 @@ export default function Home() {
           </div>
         )}
 
+
+        {/* Update Note Modal */}
         {isUpdateModalOpen && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white rounded-lg p-8 shadow-lg max-w-lg w-full">
@@ -183,3 +208,6 @@ export default function Home() {
     </main>
   );
 }
+
+
+
