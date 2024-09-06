@@ -14,7 +14,6 @@ export default function Home() {
   const [newNote, setNewNote] = useState({ title: '', content: '' });
   const [updateNote, setUpdateNote] = useState({ id: '', title: '', content: '' });
 
-  // Fetch notes
   useEffect(() => {
     axios.get(`${apiUrl}/notes`).then((response) => {
       setNotes(response.data.reverse());
@@ -23,7 +22,6 @@ export default function Home() {
     });
   }, []);
 
-  // Create note
   const createNote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios.post(`${apiUrl}/notes`, newNote).then((response) => {
@@ -34,7 +32,6 @@ export default function Home() {
     });
   };
 
-  // Update note
   const handleUpdateNote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios.put(`${apiUrl}/notes/${updateNote.id}`, {
@@ -47,6 +44,14 @@ export default function Home() {
       setUpdateNote({ id: '', title: '', content: '' });
     }).catch((error) => {
       console.error('Error updating note:', error);
+    });
+  };
+
+  const deleteNote = (noteId: number) => {
+    axios.delete(`${apiUrl}/notes/${noteId}`).then(() => {
+      setNotes(notes.filter((note) => note.id !== noteId));
+    }).catch((error) => {
+      console.error('Error deleting note:', error);
     });
   };
 
@@ -98,6 +103,7 @@ export default function Home() {
       {notes.map((note) => (
         <div key={note.id}>
           <CardComponent card={note} />
+          <button onClick={() => deleteNote(note.id)}>Delete</button>
         </div>
       ))}
     </div>
