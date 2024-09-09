@@ -3,7 +3,7 @@ version: '3.9'
 services:
   frontend:
     container_name: frontend
-    image: frontend
+    image: cameroncw/frontendapp:v1.0
     build:
       context: ./frontend
       dockerfile: frontend.dockerfile
@@ -16,7 +16,7 @@ services:
       - backend
   backend:
     container_name: backend
-    image: backend
+    image: cameroncw/backendserver:v1.0
     build:
       context: ./backend
       dockerfile: backend.dockerfile
@@ -26,7 +26,7 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public
   db:
     container_name: db
-    image: postgres:12
+    image: cameroncw/postgresdb:v1.0
     restart: always
     environment:
       POSTGRES_USER: postgres
