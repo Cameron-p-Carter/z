@@ -6,17 +6,41 @@ interface Card {
   content: string;
 }
 
-const CardComponent: React.FC<{ card: Card }> = ({ card }) => {
+const CardComponent: React.FC<{ 
+  card: Card; 
+  onClick: () => void; 
+  onDelete: () => void; 
+  onUpdate: () => void; 
+  selected: boolean;
+}> = ({ card, onClick, onDelete, onUpdate, selected }) => {
   return (
-    <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300 ease-in-out">
-      <div className="mb-2">
-        <div className="text-xs text-gray-600 italic">Note ID: {card.id}</div>
-        <h3 className="text-xl font-serif font-bold text-gray-900">{card.title}</h3>
-      </div>
-      <p className="text-base font-serif text-gray-800 leading-relaxed">{card.content}</p>
-
-      <div className="mt-4 text-right">
-        <span className="text-xs text-gray-500 italic">Created on: 6th August, 2024</span>
+    <div
+      onClick={onClick}
+      className={`p-4 rounded-lg cursor-pointer ${
+        selected ? 'bg-gray-300' : 'bg-white'
+      } hover:bg-gray-100 transition-all`}
+    >
+      <h3 className="text-lg font-serif font-bold text-gray-900">{card.title}</h3>
+      <p className="text-sm text-gray-700 truncate">{card.content}</p>
+      <div className="flex justify-end space-x-2 mt-2">
+        <button
+          onClick={(e) => {
+            e.stopPropagation(); //prevents triggering onClick for selection
+            onUpdate();
+          }}
+          className="bg-gray-400 text-white p-2 rounded-full hover:bg-gray-500 transition-all"
+        >
+          ✎ {/* Edit icon */}
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all"
+        >
+          ✖ {/* Delete icon */}
+        </button>
       </div>
     </div>
   );
