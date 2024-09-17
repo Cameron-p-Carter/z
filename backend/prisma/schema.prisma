@@ -13,9 +13,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//define note
 model Note {
-  id    Int     @id @default(autoincrement())
-  title  String
-  content String 
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  categoryId  Int?      // Foreign key to Category, optional
+  category    Category? @relation(fields: [categoryId], references: [id])
 }
+
+model Category {
+  id            Int      @id @default(autoincrement())
+  category_name String
+  is_deleted    Boolean  @default(false)
+  notes         Note[]   // Relation to Note
+}
+
+
