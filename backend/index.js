@@ -34,6 +34,16 @@ app.get('/notes', async (req, res) => {
   }
 });
 
+//get all categories
+app.get('/categories', async (req, res) => {
+  try {
+    const categories = await prisma.category.findMany();
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 //get note by id
 app.get('/notes/:id', async (req, res) => {
   try {
