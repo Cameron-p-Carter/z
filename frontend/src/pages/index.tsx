@@ -12,16 +12,16 @@ export default function Home() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-  const [isEditing, setIsEditing] = useState(false); //tracks if a new note is being created or edited
-  const [isNewNote, setIsNewNote] = useState(false); //tracks if a new note is newly created
+  const [isEditing, setIsEditing] = useState(false); // Track if a new note is being created or edited
+  const [isNewNote, setIsNewNote] = useState(false); // Track if it's a newly created note
 
-  //fetch notes
+  // Fetch notes
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${apiUrl}/notes`);
         setNotes(response.data.reverse());
-        if (response.data.length > 0) setSelectedNote(response.data[0]); //selects the first note by default
+        if (response.data.length > 0) setSelectedNote(response.data[0]); // Select the first note by default
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -30,16 +30,16 @@ export default function Home() {
     fetchData();
   }, []);
 
-
+  // Create a new empty note and select it for editing
   const createNewNote = () => {
-    const newNote: Note = { id: Date.now(), title: 'Untitled', content: '' }; //temp ID
+    const newNote: Note = { id: Date.now(), title: 'Untitled', content: '' }; // Temporary ID
     setNotes([newNote, ...notes]);
     setSelectedNote(newNote);
-    setIsEditing(true); //enable editing 
-    setIsNewNote(true); //put in new note state
+    setIsEditing(true); // Enable editing mode for new note
+    setIsNewNote(true); // This is a new note
   };
 
-  //save the new note to the db
+  // Save the new note to the backend
   const saveNewNote = async () => {
     if (selectedNote) {
       try {
@@ -48,19 +48,19 @@ export default function Home() {
           content: selectedNote.content,
         });
 
-        //replace the temporary note with the saved note (with the actual ID from the backend)
+        // Replace the temporary note with the saved note (with the actual ID from the backend)
         const savedNote = response.data;
         setNotes([savedNote, ...notes.filter((note) => note.id !== selectedNote.id)]);
-        setSelectedNote(savedNote); //set the selected note to the one with the real ID
-        setIsNewNote(false); //not new is saved
-        setIsEditing(false);
+        setSelectedNote(savedNote); // Set the selected note to the one with the real ID
+        setIsNewNote(false); // Note is now saved
+        setIsEditing(false); // Exit edit mode
       } catch (error) {
         console.error('Error saving new note:', error);
       }
     }
   };
 
-  //update an existing note in the backend
+  // Update an existing note in the backend
   const handleUpdateNote = async () => {
     if (selectedNote) {
       try {
@@ -69,28 +69,28 @@ export default function Home() {
           content: selectedNote.content,
         });
         setNotes(notes.map((note) => (note.id === selectedNote.id ? selectedNote : note)));
-        setIsEditing(false); //exit edit mode
+        setIsEditing(false); // Exit edit mode
       } catch (error) {
         console.error('Error updating note:', error);
       }
     }
   };
 
-  //handle saving or updating depending on whether it's a new note or existing note
+  // Handle saving or updating depending on whether it's a new note or existing note
   const handleSaveNote = () => {
     if (isNewNote) {
-      saveNewNote(); //save new note
+      saveNewNote(); // Save new note
     } else {
-      handleUpdateNote(); //update existing note
+      handleUpdateNote(); // Update existing note
     }
   };
 
-  //delete
+  // Delete note
   const deleteNote = async (noteId: number) => {
     try {
       await axios.delete(`${apiUrl}/notes/${noteId}`);
       setNotes(notes.filter((note) => note.id !== noteId));
-      if (selectedNote?.id === noteId) setSelectedNote(null); //clear the selected note if it's deleted
+      if (selectedNote?.id === noteId) setSelectedNote(null); // Clear the selected note if it's deleted
     } catch (error) {
       console.error('Error deleting note:', error);
     }
@@ -117,13 +117,13 @@ export default function Home() {
                 card={note}
                 onClick={() => {
                   setSelectedNote(note);
-                  setIsEditing(false);
-                  setIsNewNote(false);
+                  setIsEditing(false); // Disable editing when selecting an existing note
+                  setIsNewNote(false); // This is not a new note
                 }}
                 onDelete={() => deleteNote(note.id)}
                 onUpdate={() => {
-                  setIsEditing(true); 
-                  setIsNewNote(false);
+                  setIsEditing(true); // Enable editing mode when updating
+                  setIsNewNote(false); // This is not a new note
                 }}
                 selected={selectedNote?.id === note.id}
               />
@@ -132,7 +132,7 @@ export default function Home() {
         </aside>
 
         {/* Note Content */}
-        <section className="w-2/3 p-4 ml-6 bg-white rounded-lg shadow-lg">
+        <section className="w-2/3 p-4 ml-6 bg-white rounded-lg shadow-lg note-content" style={{ overflowWrap: 'break-word', whiteSpace: 'normal' }}>
           {selectedNote ? (
             <>
               {isEditing ? (
@@ -156,7 +156,7 @@ export default function Home() {
                   />
                   <div className="flex justify-end space-x-4 mt-4">
                     <button
-                      onClick={handleSaveNote} //save note, new or existing
+                      onClick={handleSaveNote} // Save new or update existing note
                       className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800"
                     >
                       Save

@@ -20,7 +20,7 @@ const CardComponent: React.FC<{
         selected ? 'bg-gray-300' : 'bg-white'
       } hover:bg-gray-100 transition-all`}
     >
-      <h3 className="text-lg font-serif font-bold text-gray-900">{card.title}</h3>
+      <h3 className="text-lg font-serif font-bold text-gray-900 truncate">{card.title}</h3>
       <p className="text-sm text-gray-700 truncate">{card.content}</p>
       <div className="flex justify-end space-x-2 mt-2">
         <button

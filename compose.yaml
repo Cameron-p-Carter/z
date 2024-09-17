@@ -3,7 +3,7 @@ version: '3.9'
 services:
   frontend:
     container_name: frontend
-    image: cameroncw/frontendapp:v1.0
+    image: cameroncw/frontendapp:v1.1.1
     build:
       context: ./frontend
       dockerfile: frontend.dockerfile
