@@ -49,13 +49,13 @@ app.get('/notes/:id', async (req, res) => {
   }
 });
 
-//create note
+// Create note
 app.post('/notes', async (req, res) => {
   try {
     const note = await prisma.note.create({
       data: {
-        title: req.body.title,
-        content: req.body.content
+        title: req.body.title || 'Untitled', // Default title
+        content: req.body.content || '', // Default content
       },
     });
     res.status(201).json(note);
@@ -63,6 +63,7 @@ app.post('/notes', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 //update note
 app.put('/notes/:id', async (req, res) => {
