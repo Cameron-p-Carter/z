@@ -30,7 +30,7 @@ const CardComponent: React.FC<{
           }}
           className="bg-gray-400 text-white p-2 rounded-full hover:bg-gray-500 transition-all"
         >
-          ✎ {/* Edit icon */}
+          ✎ {/* edit icon */}
         </button>
         <button
           onClick={(e) => {
@@ -39,7 +39,7 @@ const CardComponent: React.FC<{
           }}
           className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all"
         >
-          ✖ {/* Delete icon */}
+          ✖ {/* delete icon */}
         </button>
       </div>
     </div>

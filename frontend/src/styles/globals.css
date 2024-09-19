@@ -17,4 +17,40 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+
+
+  /* note content section */
+  .note-content {
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  /* select elements */
+  .category-select {
+    @apply px-4 py-2 bg-gray-700 text-white font-semibold rounded-md;
+  }
+
+  /* button styles */
+  .btn {
+    @apply px-4 py-2 font-semibold rounded-md transition duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-gray-700 text-white hover:bg-gray-800;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-500 text-white hover:bg-gray-600;
+  }
+
+  /* input fields */
+  .input-field {
+    @apply w-full p-2 border border-gray-400 rounded-md bg-yellow-50;
+  }
+
+  /* list item styles for category selection */
+  .category-list-item {
+    @apply text-left w-full px-2 py-1 hover:bg-gray-200 rounded;
+  }
 }
